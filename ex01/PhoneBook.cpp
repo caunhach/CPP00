@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   PhoneBook.cpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: caunhach <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/18 13:11:28 by caunhach          #+#    #+#             */
+/*   Updated: 2023/11/18 13:11:30 by caunhach         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "PhoneBook.hpp"
 
 int	PhoneBook::add(void)
@@ -76,7 +88,7 @@ int	PhoneBook::search(void)
 
 	if (search_page(this->_Contact))
 		return (0);
-	std::cout << BLUE << "Which user you are looking? " << RESET;
+	std::cout << BLUE << std::endl << "Which user you are looking? " << RESET;
 	while (1)
 	{
 		std::getline(std::cin, str);
@@ -84,15 +96,27 @@ int	PhoneBook::search(void)
 				return (1);
 		if (str.size() == 1 && str[0] > '0' && str[0] < '9')
 		{
-			std::cout << GREEN << "first name: " << this->_Contact[str[0] - '0' - 1].get_fname() << std::endl
-							   << "last name: " << this->_Contact[str[0] - '0' - 1].get_lname() << std::endl
-							   << "nickname: " << this->_Contact[str[0] - '0' - 1].get_nname() << std::endl
-							   << "phone number: " << this->_Contact[str[0] - '0' - 1].get_phone() << std::endl
-							   << "darkest secret: " << this->_Contact[str[0] - '0' - 1].get_secret() << std::endl << RESET;
-			break;
+			if (str[0] - '0' - 1 < this->_index)
+			{
+				std::cout << GREEN << std:: endl << "first name: " << this->_Contact[str[0] - '0' - 1].get_fname() << std::endl
+							   	   				 << "last name: " << this->_Contact[str[0] - '0' - 1].get_lname() << std::endl
+							   	   				 << "nickname: " << this->_Contact[str[0] - '0' - 1].get_nname() << std::endl
+							       				 << "phone number: " << this->_Contact[str[0] - '0' - 1].get_phone() << std::endl
+							       				 << "darkest secret: " << this->_Contact[str[0] - '0' - 1].get_secret() << std::endl 
+												 << std::endl << RESET;
+				break;
+			}
+			else
+			{
+				std::cout << RED << "User " << str << " does not exist" << std::endl << RESET;
+				std::cout << BLUE << "Which user you are looking? " << RESET;
+			}
 		}
-		std::cout << RED << "Error, please input as numbers between 1 - 8" << std::endl << RESET;
-		std::cout << BLUE << "Which user you are looking? " << RESET;
+		else
+		{
+			std::cout << RED << "Error, please input as single digit between 1 - 8" << std::endl << RESET;
+			std::cout << BLUE << "Which user you are looking? " << RESET;
+		}
 	}
 	return (0);
 }
